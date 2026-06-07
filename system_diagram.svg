@@ -1,0 +1,102 @@
+<svg width="100%" viewBox="0 0 680 420" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Double Inverted Pendulum — Control System Block Diagram</title>
+  <desc>Block diagram showing the LQR control loop for the double inverted pendulum system in ROS and Gazebo</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text class="th" x="340" y="36" text-anchor="middle" font-size="15" font-weight="500" fill="#2C2C2A">Double Inverted Pendulum — Control Loop</text>
+
+  <!-- ── Row 1: Reference + LQR Controller ── -->
+
+  <!-- Reference setpoint box -->
+  <g>
+    <rect x="40" y="80" width="120" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+    <text x="100" y="104" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#085041">Setpoint</text>
+    <text x="100" y="122" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#0F6E56">θ1=0, θ2=0</text>
+  </g>
+
+  <!-- Arrow: Reference → LQR -->
+  <line x1="160" y1="108" x2="210" y2="108" stroke="#0F6E56" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- LQR Controller box -->
+  <g>
+    <rect x="210" y="70" width="160" height="76" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+    <text x="290" y="98" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#26215C">LQR Controller</text>
+    <text x="290" y="116" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">u = −K · x</text>
+    <text x="290" y="132" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">control.py (rospy)</text>
+  </g>
+
+  <!-- Arrow: LQR → Effort Controllers -->
+  <line x1="370" y1="108" x2="420" y2="108" stroke="#534AB7" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- Effort Controllers box -->
+  <g>
+    <rect x="420" y="70" width="160" height="76" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+    <text x="500" y="98" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#26215C">Effort Controllers</text>
+    <text x="500" y="116" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">joint1_effort_controller</text>
+    <text x="500" y="132" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#534AB7">joint2_effort_controller</text>
+  </g>
+
+  <!-- Arrow: Effort Controllers → Gazebo -->
+  <line x1="500" y1="146" x2="500" y2="210" stroke="#534AB7" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="510" y="182" font-size="11" fill="#534AB7">τ1, τ2 (N·m)</text>
+
+  <!-- ── Row 2: Gazebo Plant ── -->
+
+  <!-- Gazebo Simulation box -->
+  <g>
+    <rect x="280" y="210" width="260" height="90" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+    <text x="410" y="242" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#4A1B0C">Gazebo Simulation</text>
+    <text x="410" y="260" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993C1D">Double inverted pendulum</text>
+    <text x="410" y="276" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993C1D">Physics: ODE solver @ 1000 Hz</text>
+  </g>
+
+  <!-- Arrow: Gazebo → Joint State Publisher -->
+  <line x1="280" y1="255" x2="220" y2="255" stroke="#993C1D" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+  <!-- Joint State Publisher box -->
+  <g>
+    <rect x="40" y="210" width="180" height="90" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+    <text x="130" y="242" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#4A1B0C">Joint State Publisher</text>
+    <text x="130" y="260" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993C1D">θ1, θ2, θ̇1, θ̇2</text>
+    <text x="130" y="276" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#993C1D">100 Hz publish rate</text>
+  </g>
+
+  <!-- Feedback arrow: Joint State → back up to LQR (left side) -->
+  <path d="M 130 210 L 130 160 L 210 160" fill="none" stroke="#1D9E75" stroke-width="1.2" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+  <text x="145" y="155" font-size="11" fill="#1D9E75">/joint_states topic</text>
+
+  <!-- ── Row 3: ROS Infrastructure ── -->
+
+  <!-- ROS Master box -->
+  <g>
+    <rect x="40" y="340" width="140" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+    <text x="110" y="364" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#2C2C2A">ROS Master</text>
+    <text x="110" y="382" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">roscore</text>
+  </g>
+
+  <!-- Robot State Publisher box -->
+  <g>
+    <rect x="220" y="340" width="180" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+    <text x="310" y="364" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#2C2C2A">State Publisher</text>
+    <text x="310" y="382" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">robot_state_publisher</text>
+  </g>
+
+  <!-- Docker box (dashed outline) -->
+  <rect x="28" y="332" width="560" height="76" rx="10" fill="none" stroke="#B4B2A9" stroke-width="0.8" stroke-dasharray="6 4"/>
+  <text x="598" y="372" font-size="11" fill="#888780">Docker</text>
+  <text x="598" y="386" font-size="11" fill="#888780">container</text>
+
+  <!-- ros_control label -->
+  <g>
+    <rect x="430" y="340" width="140" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+    <text x="500" y="364" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#2C2C2A">ros_control</text>
+    <text x="500" y="382" text-anchor="middle" dominant-baseline="central" font-size="11" fill="#5F5E5A">controller_manager</text>
+  </g>
+
+</svg>

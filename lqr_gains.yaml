@@ -1,0 +1,21 @@
+# LQR Gain Matrix for Double Inverted Pendulum
+# Rows: [joint1_torque, joint2_torque]
+# Cols: [theta1, theta2, theta1_dot, theta2_dot]
+#
+# Computed for:
+#   m1 = 0.5 kg,  L1 = 0.8 m  (lower rod)
+#   m2 = 0.3 kg,  L2 = 0.8 m  (upper rod)
+#   M  = 2.0 kg                (base/cart)
+#   g  = 9.81 m/s²
+
+lqr_gains:
+  k1_th1:  95.0
+  k1_th2:  160.0
+  k1_dth1: 22.0
+  k1_dth2: 18.0
+  k2_th1:  45.0
+  k2_th2:  120.0
+  k2_dth1: 10.0
+  k2_dth2: 15.0
+
+torque_limit: 150.0
